@@ -1,3 +1,6 @@
+delete educa/static
+
+local:
 docker run -it --rm --name redis -p 6379:6379 redis 
     or
         docker start redis
@@ -5,3 +8,9 @@ or
 docker run -it --rm --name memcached -p 11211:11211 memcached -m 64
 
 python manage.py runserver --settings=educa.settings.local
+
+
+prod:
+docker compose exec web python /code/educa/manage.py migrate
+docker compose exec web python /code/educa/manage.py createsuperuser
+docker compose exec web python /code/educa/manage.py collectstatic
